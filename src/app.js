@@ -1,16 +1,21 @@
 const fs = require("fs");
 
-const getFile = function(url){
-  if(url == '/') return './index.html';
-  return '.' + url;
-}
+const getFile = function(url) {
+  if (url == "/") return "./index.html";
+  return "." + url;
+};
 
 const app = (req, res) => {
   let path = getFile(req.url);
   fs.readFile(path, function(err, data) {
-    res.statusCode = 200;
-    res.write(data);
-    res.end();
+    try {
+      res.statusCode = 200;
+      res.write(data);
+      res.end();
+    } catch (error) {
+      res.statusCode = 404;
+      res.end();
+    }
   });
 };
 

@@ -1,0 +1,11 @@
+.title {
+  text-align: right;
+  margin-right: 30px;
+  color: orange
+}
+
+main {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}

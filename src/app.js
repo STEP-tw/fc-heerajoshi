@@ -1,6 +1,17 @@
+const fs = require("fs");
+
+const getFile = function(url){
+  if(url == '/') return './index.html';
+  return '.' + url;
+}
+
 const app = (req, res) => {
-  res.statusCode = 404;
-  res.end();
+  let path = getFile(req.url);
+  fs.readFile(path, function(err, data) {
+    res.statusCode = 200;
+    res.write(data);
+    res.end();
+  });
 };
 
 // Export a function that can act as a handler

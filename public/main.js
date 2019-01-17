@@ -5,8 +5,9 @@ const hideJar = function(){
     jar.style.visibility = "visible";
   }, 1000);
 }
-
-window.onload = function(){
+const initialise = function(){
   const jar = document.getElementById("jar");
   jar.onclick = hideJar;
 }
+
+window.onload = initialise;

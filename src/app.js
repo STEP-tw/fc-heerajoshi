@@ -1,8 +1,8 @@
 const fs = require("fs");
 
 const getFile = function(url) {
-  if (url == "/") return "./index.html";
-  return "." + url;
+  if (url === "/") return "./public/index.html";
+  return "./public" + url;
 };
 
 const app = (req, res) => {

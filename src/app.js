@@ -50,8 +50,8 @@ const readArgs = text => {
 };
 
 const getMessage = (res, messageData) => {
-  return `<h2>${messageData.name}<h2><h3>${messageData.date}</h3><p>${
-    messageData.comment
+  return `<p>${messageData.date}<b>${ " "+ messageData.name}</b>${
+ " "+  messageData.comment
   }</p>`;
 };
 

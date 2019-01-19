@@ -8,7 +8,7 @@ const readBody = (req, res, next) => {
   let content = "";
   req.on("data", chunk => (content += chunk));
   req.on("end", () => {
-    req.body = content;
+    req.body = unescape(content).replace(/\+/g , ' ');
     next();
   });
 };

@@ -1,13 +1,12 @@
 const fs = require("fs");
 const Handler = require("./handler.js");
 const app = new Handler();
-
-if(!"./comments.json"){
-  fs.writeFileSync("./comments.json", '[]')
+if(!fs.existsSync('./src/comments.json')){
+  fs.writeFileSync('./src/comments.json', '[]', 'utf-8');
 }
+const comments = JSON.parse(fs.readFileSync("./src/comments.json"));
 
 
-const comments = require("./comments.json");
 const readBody = (req, res, next) => {
   let content = "";
   req.on("data", chunk => (content += chunk));

@@ -1,7 +1,7 @@
 const isMatching = (req, route) => {
   if (route.method && req.method != route.method) return false;
   return true;
-}
+};
 
 class Handler {
   constructor() {
@@ -10,11 +10,11 @@ class Handler {
   use(handler) {
     this.routes.push({ handler });
   }
-  get(handler) {
-    this.routes.push({ method: 'GET', handler });
+  get(url, handler) {
+    this.routes.push({ method: "GET", url, handler });
   }
   post(url, handler) {
-    this.routes.push({ method: 'POST', url, handler });
+    this.routes.push({ method: "POST", url, handler });
   }
   error(handler) {
     this.errorRoute = handler;
@@ -28,9 +28,9 @@ class Handler {
       if (!current) return;
       remaining = remaining.slice(1);
       current.handler(req, res, next);
-    }
+    };
     next();
   }
-};
+}
 
 module.exports = Handler;

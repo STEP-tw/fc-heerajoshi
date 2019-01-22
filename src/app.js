@@ -31,7 +31,7 @@ const readContent = function(res, url) {
   const path = getURLPath(url);
   fs.readFile(path, (err, content) => {
     if (err) {
-      send(res, "Invalid_Request", 404);
+      send(res, "file_not_found", 404);
       return;
     }
     send(res, content);
@@ -52,18 +52,20 @@ const readArgs = text => {
   return args;
 };
 
-const getMessage = (res, messageData) => {
+const getMessage = messageData => {
   return `<p>${messageData.date}<b>${" " + messageData.name}</b>${" " +
     messageData.comment}</p>`;
 };
 
 const writeComments = function(res) {
-  fs.readFile("./public/guest.html", (err, content) => {
+  fs.readFile("./public/guest.html", "utf-8", (err, content) => {
+    let commentsHTML = "";
     comments.forEach(data => {
-      let message = getMessage(res, data);
-      content += message;
+      let message = getMessage(data);
+      commentsHTML += message;
     });
-    send(res, content);
+    const guestBookPageHTML = content.replace("____COMMENTS____", commentsHTML);
+    send(res, guestBookPageHTML);
   });
 };
 
@@ -77,21 +79,35 @@ const renderGuestBook = (req, res) => {
   });
   writeComments(res);
 };
+const serveComments = function(req, res) {
+  fs.readFile("./public/guest.html", "utf-8", (err, content) => {
+    let commentsHTML = "";
+    comments.forEach(data => {
+      let message = getMessage(data);
+      commentsHTML += message;
+    });
+    send(res, commentsHTML);
+  });
+};
 
 const renderError = (req, res, err) => {
   send(res);
 };
 
 const renderGuestURL = function(req, res) {
-  console.log("hi");
   writeComments(res);
 };
 
-app.use(readBody);
+const logRequest = function(req, res, next) {
+  console.log(req.url, req.method);
+  next();
+};
 
+app.use(logRequest);
+app.use(readBody);
 app.get("/guest.html", renderGuestURL);
 app.post("/guest.html", renderGuestBook);
+app.get("/comments", serveComments);
 app.use(renderURL);
-
 app.error(renderError);
 module.exports = app.handleRequest.bind(app);

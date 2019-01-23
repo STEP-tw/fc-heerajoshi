@@ -14,4 +14,5 @@ const initialise = function(){
   reloadButton.onclick = updateComment;
 }
 
+
 window.onload = initialise;
